@@ -1,3 +1,3 @@
 FROM tomcat:8
 LABEL app=my-app
-COPY /opt/jenkins/workspace/Project1/target/hr-api.war
+COPY target/*.war /opt/jenkins/workspace/Project1/myweb.war

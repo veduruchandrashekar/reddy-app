@@ -1,7 +1,7 @@
 kind: Deployment
 apiVersion: v1
 metadata:
-name: my-httpd
+name: nodapp
 spec:
 replicas: 1
 template:
@@ -10,7 +10,7 @@ labels:
 app: webservers
 spec:
 containers:
-- name: my-httpd-container1
+- name: nodapp
 image: veduruchandrashekar/hr-api:latest
 ports:
 - containerPort: 8080

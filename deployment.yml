@@ -38,4 +38,4 @@ spec:
 
           ports: veduruchandrashekar/hr-api:latest
 
-            - containerPort: 80
+            - containerPort: 8080

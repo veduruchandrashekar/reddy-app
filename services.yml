@@ -1,12 +1,32 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: nodeapp
+  name: nodeapp2
 spec:
   selector:
-    app: nodeapp
+    app: nodeapp2
   ports:
   - protocol: TCP
     port: 80
     targetPort: 8080
   type: LoadBalancer
+
+apiVersion: v1
+kind: Deployment
+metadata:
+  name: nodeapp
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodeapp2
+  template:
+    metadata:
+      labels:
+        app: nodeapp2
+    spec:
+      containers:
+      - name: front-end
+        image: veduruchandrashekar/hr-api:latest
+        ports:
+        - containerPort: 8080

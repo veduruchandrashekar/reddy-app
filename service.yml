@@ -1,0 +1,44 @@
+
+kind: Deployment
+apiVersion: v1
+metadata:
+  name: test-dply
+spec:
+  selector:
+    # Defines the selector that can be matched by a service for this 
+deployment
+    matchLabels:
+       app: test_pod
+  template:
+    metadata:
+      labels:
+        # Puts the label on the pod, this must match the matchLabels 
+selector
+        app: test_pod
+    spec:
+      # Our containers for training each model
+      containers:
+      - name: mycontainer
+        image: veduruchandrashekar/hr-api:latest
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        ports:
+        - name: containerport
+          containerPort: 8080
+
+kind: Service
+apiVersion: v1
+metadata:
+  # Name of our service
+  name: prodigy-service
+spec:
+  # LoadBalancer type to allow external access to multiple ports
+  type: LoadBalancer
+  selector:
+    # Will deliver external traffic to the pod holding each of our containers
+    app: test_pod
+  ports:
+    - name: sentiment
+      protocol: TCP
+      port: 80
+      targetPort: containerport

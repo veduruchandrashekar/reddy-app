@@ -26,7 +26,7 @@ spec:
         app: nodeapp2
     spec:
       containers:
-      - name: front-end
+      - name: nodeapp2
         image: veduruchandrashekar/hr-api:latest
         ports:
         - containerPort: 8080

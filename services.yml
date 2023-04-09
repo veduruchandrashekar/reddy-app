@@ -14,7 +14,7 @@ spec:
 apiVersion: v1
 kind: Deployment
 metadata:
-  name: nodeapp
+  name: nodeapp2
 spec:
   replicas: 2
   selector:

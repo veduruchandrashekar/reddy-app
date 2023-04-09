@@ -1,4 +1,5 @@
-FROM tomcat:8
+FROM alpine:latest
 LABEL app=my-app
-COPY target/*.war /opt/jenkins/workspace/Project1/myweb.war
+WORKDIR /reddy
+COPY target/*.war .
 EXPOSE 8080

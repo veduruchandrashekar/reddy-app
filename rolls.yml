@@ -1,41 +1,24 @@
 apiVersion: apps/v1
-
 kind: Deployment
-
 metadata:
-
-  name: webapp
-
-  labels:
-
-    app: web
-
+  name: nodeapp
 spec:
-
-  replicas: 2
-
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
   selector:
-
     matchLabels:
-
-      app: web
-
+      app: nodeapp
   template:
-
     metadata:
-
       labels:
-
-        app: web
-
+        app: nodeapp
     spec:
-
       containers:
-
-        - name: webapp
-
-          image: nginx
-
-          ports: veduruchandrashekar/hr-api:latest
-
-            - containerPort: 80
+      - image: veduruchandrashekar/hr-api:latest
+        name: nodeapp
+        ports:
+        - containerPort: 8080

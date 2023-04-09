@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ReplicaSet
+metadata:
+  name: hr-api
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - {key: app, operator: In, values: [hr-api]}
+  template:
+    metadata:
+      name: hr-api
+      labels:
+        app: hr-api
+    spec:
+      containers:
+      - name: nodeapp
+        image: veduruchandrashekar/hr-api: latest
+        ports:
+        - containerPort: 8080

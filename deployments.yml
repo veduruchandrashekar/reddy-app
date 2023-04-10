@@ -1,16 +1,24 @@
+apiVersion: apps/v1
 kind: Deployment
-apiVersion: v1
 metadata:
-name: nodapp
+  name: hr-api
 spec:
-replicas: 1
-template:
-metadata:
-labels:
-app: webservers
-spec:
-containers:
-- name: nodapp
-image: veduruchandrashekar/hr-api:latest
-ports:
-- containerPort: 8080
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  selector:
+    matchLabels:
+      app: hr-api
+  template:
+    metadata:
+      labels:
+        app: hr-api
+    spec:
+      containers:
+      - image: veduruchandrashekar/hr-api:latest
+        name: hr-api
+        ports:
+        - containerPort: 8080

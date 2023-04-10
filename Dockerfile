@@ -1,6 +1,4 @@
-FROM tomcat:8
+From tomcat:8-jre8
 LABEL app=my-app
-WORKDIR /chandra
-COPY target/hr-api.war .
+COPY target/*.war /usr/local/tomcat/webapps/myweb.war
 EXPOSE 8080
-CMD ["java", "-jar", "/chandra/hr-api.war"]

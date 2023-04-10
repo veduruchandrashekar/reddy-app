@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hr-api
 spec:
-  replicas: 5
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:

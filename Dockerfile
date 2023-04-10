@@ -1,5 +1,6 @@
-From tomcat:8-jre8
+From java:11-jdk-alpine
 LABEL app=my-app
-COPY target/*.war /usr/local/tomcat/webapps/myweb.war
+COPY target/*hr-api.war /usr/app
+WORKDIR /usr/app
 EXPOSE 8080
-CMD ["catalina.sh", "run"]
+CMD ["java", "-jar", "hr-api.war"]

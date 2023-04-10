@@ -13,7 +13,6 @@ spec:
       labels:
         app: hr-api
     spec:
-      restartPolicy: Always
       containers:
       - name: hr-api
         image: veduruchandrashekar/hr-api:latest

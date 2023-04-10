@@ -1,4 +1,4 @@
-FROM java:11-jdk-alpine
+FROM openjdk:11
 LABEL app=my-app
 COPY target/*hr-api.war /usr/app
 WORKDIR /usr/app

@@ -3,11 +3,10 @@ apiVersion: v1
 metadata:
   name: hr-api
 spec:
+  type: LoadBalancer
   selector:
     app: hr-api
   ports:
   - protocol: TCP
     port: 80
     targetPort: 8080
-    
-  type: NodePort

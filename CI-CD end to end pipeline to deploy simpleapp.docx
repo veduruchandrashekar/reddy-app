@@ -1,4 +1,4 @@
-Technologies used: Git, Maven, Jenkins, Docker, Sonarqube, K8s
+Technologies used: Git, Maven, Jenkins, Docker, Sonarqube, K8s, AWS
 # Installing jenkins
 Create an ec2 instance and install jenkins on it.
 sudo yum update

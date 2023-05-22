@@ -14,9 +14,5 @@ variable "subnet_cidr2" {
   default = "10.20.2.0/24"
 }
 
-variable "sg_ports" {
-  type        = list(number)
-  description = "list of ingress ports"
-  default     = [8080, 80, 22, 443]
-}
+
 

@@ -50,5 +50,5 @@ Write a docker file to containerize application and also yaml files for deployme
 # Building ci/cd and deploying app.
 Now construct ci/cd declarative pipeline
 first checkout code--> maven build--> sonarqube scanning--> docker image build--> docker registry authentication and pushing it to docker registry--> Now deploying it to kubernetes cluster.
- Now install prometheus and grafana and starting monitoring already deployed application on kubernetes cluster using grafana dashboard.
+ Now install prometheus and grafana and starting monitoring already deployed application on kubernetes cluster using grafana dashboard. We will monitor metrics of deployments.
 

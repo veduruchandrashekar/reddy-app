@@ -51,3 +51,61 @@ Write a docker file to containerize application and also yaml files for deployme
 Now construct ci/cd declarative pipeline
 first checkout code--> maven build--> sonarqube scanning--> docker image build--> docker registry authentication and pushing it to docker registry--> Now deploying it to kubernetes 
 cluster.
+#Install Kubernetes Metrics Server
+#Apply Metrics Server manifests which are available on Metrics Server releases making them installable via url:
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/download/v0.4.3/components.yaml
+
+#Use the following command to verify that the metrics-server deployment is running the desired number of pods:
+kubectl get deployment metrics-server -n kube-system
+kubectl get pods -n kube-system
+
+#Confirm Metrics server is active.
+kubectl get apiservice v1beta1.metrics.k8s.io -o yaml
+
+#Metrics API can also be accessed by using the kubectl top command.
+#To display cluster nodes resource usage – CPU/Memory/Storage you’ll run the command:
+kubectl top nodes
+
+#Similar command can be used for pods.
+kubectl top pods -A
+
+#You can also access use kubectl get –raw to pull raw resource usage metrics for all nodes in the cluster.
+kubectl get --raw "/apis/metrics.k8s.io/v1beta1/nodes"
+
+#Install Helm 
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/prometheus
+helm version
+
+# Deploying Prometheus on EKS Kubernetes Cluster
+#Prometheus can be installed on Kubernetes cluster using Operator or with helm
+#First create a monitoring namespace.
+kubectl create namespace monitoring
+
+#Prometheus needs a way to persist metrics data for historical reference. We’ll use EBS which is provisioned with gp2 storage class.
+kubectl get sc
+
+#Add chart repository:
+helm repo add stable https://charts.helm.sh/stable
+
+#Deploy Prometheus using Helm.
+
+helm install prometheus stable/prometheus --namespace monitoring --set alertmanager.persistentVolume.storageClass="gp2",server.persistentVolume.storageClass="gp2"
+
+#Confirm PV and PVC are created.
+
+kubectl get pv -n monitoring
+
+kubectl get pvc -n monitoring
+
+#Access Prometheus on EKS Kubernetes Cluster 
+
+#After installation query all resources in the monitoring namespace:
+kubectl get all -n monitoring
+
+#Get the Prometheus server URL by running these commands in the same shell:
+$POD_NAME=$(kubectl get pods --namespace monitoring -l "app=prometheus,component=server" -o jsonpath="{.items[0].metadata.name}")
+
+#Use Kubernetes port forwarding feature to access Prometheus Server.
+kubectl --namespace monitoring port-forward $POD_NAME 9090

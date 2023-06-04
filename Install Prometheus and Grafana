@@ -1,0 +1,62 @@
+# Install Helm Chart
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
+
+# Install metrics server
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+
+# Install Prometheus
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts 
+helm repo update 
+
+# Create seperate name space for that
+kubectl create namespace prometheus
+
+# Install prometheus
+helm install prometheus prometheus-community/prometheus \
+    --namespace prometheus \
+    --set alertmanager.persistentVolume.storageClass="gp2" \
+    --set server.persistentVolume.storageClass="gp2" 
+    
+# View the Prometheus dashboard by forwarding the deployment ports
+kubectl port-forward deployment/prometheus-server 9090:9090 -n prometheus
+
+# Install Grafana
+helm repo add grafana https://grafana.github.io/helm-charts 
+helm repo update 
+
+#  create a Prometheus data source so that Grafana can access the Kubernetes metrics. 
+# Create a yaml file prometheus-datasource.yaml and save the following data source configuration into it
+datasources:
+  datasources.yaml:
+    apiVersion: 1
+    datasources:
+    - name: Prometheus
+      type: prometheus
+      url: http://prometheus-server.prometheus.svc.cluster.local
+      access: proxy
+      isDefault: true
+      
+ # Create namespace grafana
+ kubectl create namespace grafana
+
+# Install the Grafana
+helm install grafana grafana/grafana \
+    --namespace grafana \
+    --set persistence.storageClassName="gp2" \
+    --set persistence.enabled=true \
+    --set adminPassword='EKS!sAWSome' \
+    --values prometheus-datasource.yaml \
+    --set service.type=LoadBalancer 
+# IP of Grafana Kubernetes Server- To Access the Grafana dashboard we need to find Public AWS IP address and for that use the following command -
+use Command kubectl get service -n grafana to know external Ip of grafana of grafana and paste it on internet and access grafana.
+
+# Import grafana dashboard from grafana labs
+Now we have set up everything of Prometheus and Grafana. For the custom Grafana Dashboard, we are going to use the open source grafana dashboard.
+
+On opensource grafana dashboard we can find many opensource dashboards which can be imported directly into the Grafana. 
+For this session, I am going to import a dashboard 6417
+ First on grafana page on left handside click on import and enter number and it will get loaded.
+
+

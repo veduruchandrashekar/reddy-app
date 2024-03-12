@@ -18,7 +18,7 @@ spec:
         app: hr-api
     spec:
       containers:
-      - image: saikalyan49/hr-api.war:latest
+      - image: veduru94/hr-api.war:latest
         name: hr-api
         ports:
         - containerPort: 8080

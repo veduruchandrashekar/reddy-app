@@ -37,7 +37,7 @@ pipeline{
         stage('Docker Push'){
             steps{
                 withCredentials([usernamePassword(credentialsId: 'veduru94', passwordVariable: 'pwd', usernameVariable: 'usrname')]) {
-                    sh 'docker login -u usrname -p pwd'
+                    sh 'docker login -u ${usrname} -p ${pwd}'
                 }
                   
                   sh 'docker push veduruchandrashekar/hr-api.war'

@@ -3,18 +3,10 @@
 #EXPOSE 8080
 
 # Base image
-FROM openjdk:17-alpine
+FROM tomcat:9.0-jre11-slim  # Adjust Tomcat version if needed
 
-# Work directory
-WORKDIR /app
-
-# Copy the WAR file
-COPY  target/hr-api.war /app/hr-api.war
-
-# Expose port (adjust if your application listens on a different port)
+# Expose port (Tomcat default)
 EXPOSE 8080
 
-
-
-# Command to run the application (replace with your actual command if needed)
-CMD ["java", "-jar", "/app/hr-api.war"]
+# Copy the WAR file to the Tomcat webapps directory
+COPY hr-api.war /usr/local/tomcat/webapps/hr-api.war

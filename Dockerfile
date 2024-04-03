@@ -14,8 +14,7 @@ COPY  target/hr-api.war /app/hr-api.war
 # Expose port (adjust if your application listens on a different port)
 EXPOSE 8080
 
-# Install the OpenJDK runtime (if not already included in the base image)
-RUN apk add --no-cache openjdk17
+
 
 # Command to run the application (replace with your actual command if needed)
 CMD ["java", "-jar", "/app/hr-api.war"]

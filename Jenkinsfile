@@ -16,6 +16,31 @@ pipeline{
                 sh 'mvn clean package'
             }
         }
+
+        stage('sonar and maven build'){
+            parallel{
+                stage('maven build'){
+                    steps{
+                        sh 'mvn clean package'
+                    }
+                    
+                }
+                
+                stage('sonarqube analysis'){
+                    steps{
+                         withSonarQubeEnv('sonar7'){
+                            sh 'mvn sonar:sonar'
+                        }
+                         waitForQualityGate abortPipeline: true, credentialsId: 'sonar-token'
+                        
+                        
+                    }
+                }
+            }
+            
+        }
+        
+        
         
         stage('sonarqube analysis'){
             steps{
